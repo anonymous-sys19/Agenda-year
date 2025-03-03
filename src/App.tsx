@@ -6,7 +6,7 @@ import { useAuthStore } from './store/auth';
 import { supabase } from './lib/supabase';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SchedulePage from './routes/page';
-import { ScheduleForm } from './routes/components/ScheduleForm';
+import { ScheduleForm } from './routes/components/ScheduleForm.tsx';
 import PublicSchedule from './routes/schedule/ScheduleView.tsx';
 import { HelmetProvider } from 'react-helmet-async';
 function App() {

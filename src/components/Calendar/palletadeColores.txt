@@ -1,58 +1,32 @@
-Entendido. Voy a adaptar este componente EventDialog al estilo oscuro que hemos estado utilizando, manteniendo su funcionalidad. También te proporcionaré la paleta de colores que estoy usando.
+const THEME_COLORS = {
+  // Fondos
+  background: "#0f0f1e",
+  glassOverlay: "bg-white/5",
+  hoverOverlay: "bg-white/10",
 
-Aquí tienes el componente EventDialog actualizado:
+  // Gradientes
+  gradients: {
+    background: "from-indigo-900/30 via-purple-900/20 to-blue-900/30",
+    accent: "from-cyan-500 via-blue-500 to-purple-600",
+    button: "from-blue-600 to-purple-600",
+    buttonHover: "from-blue-700 to-purple-700",
+    text: "from-cyan-400 to-blue-500",
+  },
 
-```typescriptreact project="EventForm"
-...
-```
+  // Bordes y Separadores
+  borders: "border-white/10",
 
-Ahora, te proporciono la paleta de colores que estoy utilizando para este diseño oscuro:
+  // Textos
+  text: {
+    primary: "text-white",
+    secondary: "text-gray-300",
+    accent: "text-cyan-400",
+    hover: "text-cyan-300",
+  },
 
-1. Fondos:
-
-1. Principal: `bg-gray-900`
-2. Secundario: `bg-gray-800`
-3. Terciario: `bg-gray-700`
-
-
-
-2. Texto:
-
-1. Principal: `text-white` o `text-gray-100`
-2. Secundario: `text-gray-200`
-3. Terciario/Muted: `text-gray-400`
-
-
-
-3. Bordes:
-
-1. `border-gray-700`
-
-
-
-4. Acentos:
-
-1. Índigo: `bg-indigo-600`, `text-indigo-300`, `border-indigo-500`
-
-
-
-5. Categorías (Badges):
-
-1. Trabajo: `bg-blue-900 text-blue-200`
-2. Personal: `bg-green-900 text-green-200`
-3. Iglesia: `bg-purple-900 text-purple-200`
-4. Other: `bg-gray-700 text-gray-200`
-
-
-
-6. Interacciones:
-
-1. Hover: Generalmente un tono más claro del fondo, por ejemplo, `hover:bg-gray-700` sobre `bg-gray-800`
-
-
-
-
-
-Esta paleta proporciona un esquema de colores oscuro coherente que mantiene un buen contraste y legibilidad. Los colores de las categorías se han ajustado para que sean más oscuros pero aún distinguibles en el tema oscuro.
-
-¿Hay algún aspecto específico de este diseño que te gustaría ajustar o alguna pregunta sobre la paleta de colores?
+  // Efectos
+  effects: {
+    glow: "ring-cyan-500/50",
+    shadow: "shadow-blue-500/20",
+  }
+}

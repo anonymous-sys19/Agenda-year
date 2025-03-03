@@ -18,12 +18,20 @@ import { EventForm } from "./EventForm"
 import { EventDialog } from "./EventDialog"
 import { CalendarEvent } from "."
 
+// const CATEGORY_COLORS = {
+//   Trabajo: "bg-blue-500",
+//   Personal: "bg-green-500",
+//   Iglesia: "bg-purple-500",
+//   Other: "bg-gray-500",
+// } as const
+// Actualiza también los colores de categoría para que coincidan con el tema
 const CATEGORY_COLORS = {
-  Trabajo: "bg-blue-500",
-  Personal: "bg-green-500",
-  Iglesia: "bg-purple-500",
-  Other: "bg-gray-500",
+  Trabajo: "bg-gradient-to-r from-blue-600 to-blue-400",
+  Personal: "bg-gradient-to-r from-cyan-600 to-cyan-400",
+  Iglesia: "bg-gradient-to-r from-purple-600 to-purple-400",
+  Other: "bg-gradient-to-r from-gray-600 to-gray-400",
 } as const
+
 
 interface CalendarGridProps {
   currentDate: Date
@@ -58,40 +66,30 @@ export function CalendarGrid({ currentDate, onDateChange }: CalendarGridProps) {
 
 
   return (
-    <div className="bg-gray-900 rounded-lg shadow-xl p-6 text-white">
-      {/* <div className="fixed bottom-4 right-4 z-40">
-
-        <Button
-          variant="default"
-          size="icon"
-          onClick={() => setIsEventFormOpen(true)}
-          className="bg-indigo-600 hover:bg-indigo-700"
-        >
-          <CalendarIcon className="h-6 w-6 text-white" />
-        </Button>
-      </div> */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-100">{format(currentDate, "MMMM yyyy")}</h2>
-        <div className="flex space-x-2">
+    <div className="bg-[#0f0f1e]/80 backdrop-blur-xl rounded-2xl shadow-2xl p-6 text-white border border-white/10">
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+          {format(currentDate, "MMMM yyyy")}
+        </h2>
+        <div className="flex space-x-3">
           <button
             onClick={() => onDateChange(new Date(currentDate.setMonth(currentDate.getMonth() - 1)))}
-            className="p-2 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors"
+            className="p-2 bg-white/5 hover:bg-white/10 rounded-xl transition-all duration-300 border border-white/10 group"
           >
-            <ChevronLeft className="w-5 h-5 text-gray-300" />
+            <ChevronLeft className="w-5 h-5 text-cyan-400 group-hover:text-cyan-300" />
           </button>
           <button
             onClick={() => onDateChange(new Date(currentDate.setMonth(currentDate.getMonth() + 1)))}
-            className="p-2 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors"
+            className="p-2 bg-white/5 hover:bg-white/10 rounded-xl transition-all duration-300 border border-white/10 group"
           >
-            <ChevronRight className="w-5 h-5 text-gray-300" />
+            <ChevronRight className="w-5 h-5 text-cyan-400 group-hover:text-cyan-300" />
           </button>
         </div>
-
       </div>
 
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-3">
         {weekDays.map((day) => (
-          <div key={day} className="text-center text-sm font-medium text-gray-400 py-2">
+          <div key={day} className="text-center text-sm font-medium text-cyan-400 py-2">
             {day}
           </div>
         ))}
@@ -107,28 +105,40 @@ export function CalendarGrid({ currentDate, onDateChange }: CalendarGridProps) {
               key={day.toISOString()}
               onClick={() => setSelectedDate(day)}
               className={`
-                relative h-14 p-1 text-sm border rounded-md transition-all duration-200
-                ${isCurrentMonth ? "bg-gray-800" : "bg-gray-900"}
-                ${isSelected ? "border-indigo-500 ring-1 ring-indigo-500" : "border-gray-700"}
-                ${dayIsToday ? "font-bold bg-gray-700" : ""}
-                hover:bg-gray-700 cursor-pointer
+                relative h-16 p-1 text-sm rounded-xl transition-all duration-300
+                border border-white/10 backdrop-blur-sm
+                ${isCurrentMonth ? "bg-white/5" : "bg-white/[0.02]"}
+                ${isSelected ? "ring-2 ring-cyan-400/50 border-cyan-400" : ""}
+                ${dayIsToday ? "bg-gradient-to-br from-blue-600/20 to-purple-600/20" : ""}
+                hover:bg-white/10 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/10
+                group
               `}
             >
               <span
                 className={`
-                ${isCurrentMonth ? "text-gray-100" : "text-gray-500"}
-                ${isSelected ? "text-indigo-300" : ""}
-                ${dayIsToday ? "text-indigo-300" : ""}
-              `}
+                  ${isCurrentMonth ? "text-gray-100" : "text-gray-500"}
+                  ${isSelected ? "text-cyan-400" : ""}
+                  ${dayIsToday ? "font-bold text-cyan-400" : ""}
+                  group-hover:text-cyan-300
+                `}
               >
                 {format(day, "d")}
               </span>
               {dayEvents.length > 0 && (
-                <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex gap-1">
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1.5">
                   {dayEvents.slice(0, 3).map((event) => (
-                    <div key={event.id} className={`w-1.5 h-1.5 rounded-full ${CATEGORY_COLORS[event.category]}`} />
+                    <div 
+                      key={event.id} 
+                      className={`
+                        w-1.5 h-1.5 rounded-full 
+                        ${CATEGORY_COLORS[event.category]}
+                        shadow-glow
+                      `} 
+                    />
                   ))}
-                  {dayEvents.length > 3 && <div className="w-1.5 h-1.5 rounded-full bg-gray-400" />}
+                  {dayEvents.length > 3 && (
+                    <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-600 to-purple-600" />
+                  )}
                 </div>
               )}
             </button>
@@ -141,5 +151,4 @@ export function CalendarGrid({ currentDate, onDateChange }: CalendarGridProps) {
     </div>
   )
 }
-
 

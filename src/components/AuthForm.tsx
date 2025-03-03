@@ -27,44 +27,53 @@ export function AuthForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-100">
-            {isLogin ? "Sign in to your account" : "Create a new account"}
+    <div className="min-h-screen flex items-center justify-center bg-[#0f0f1e] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Animated background effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-blue-900/30"></div>
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-repeat opacity-5"></div>
+
+      <div className="max-w-md w-full space-y-8 relative z-10">
+        <div className="text-center space-y-2">
+          <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+            {isLogin ? "Welcome Back" : "Join Us"}
           </h2>
+          <p className="text-cyan-400 text-sm">
+            {isLogin ? "Sign in to continue your journey" : "Create your account to get started"}
+          </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+
+        <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-white/10">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {!isLogin && (
-              <div>
-                <label htmlFor="display-name" className="sr-only">
+              <div className="space-y-2">
+                <label htmlFor="display-name" className="block text-sm font-medium text-cyan-400">
                   Display Name
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <User className="h-5 w-5 text-gray-500" />
+                    <User className="h-5 w-5 text-cyan-500" />
                   </div>
                   <input
                     id="display-name"
                     name="display-name"
                     type="text"
                     required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-700 placeholder-gray-500 bg-gray-800 text-gray-100 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Display Name"
+                    className="block w-full pl-10 px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all duration-300"
+                    placeholder="John Doe"
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
                   />
                 </div>
               </div>
             )}
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+
+            <div className="space-y-2">
+              <label htmlFor="email-address" className="block text-sm font-medium text-cyan-400">
+                Email Address
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-500" />
+                  <Mail className="h-5 w-5 text-cyan-500" />
                 </div>
                 <input
                   id="email-address"
@@ -72,22 +81,21 @@ export function AuthForm() {
                   type="email"
                   autoComplete="email"
                   required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-700 placeholder-gray-500 bg-gray-800 text-gray-100 ${
-                    isLogin ? "rounded-t-md" : ""
-                  } focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                  placeholder="Email address"
+                  className="block w-full pl-10 px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all duration-300"
+                  placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
+
+            <div className="space-y-2">
+              <label htmlFor="password" className="block text-sm font-medium text-cyan-400">
                 Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-500" />
+                  <Lock className="h-5 w-5 text-cyan-500" />
                 </div>
                 <input
                   id="password"
@@ -95,39 +103,35 @@ export function AuthForm() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-700 placeholder-gray-500 bg-gray-800 text-gray-100 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
+                  className="block w-full pl-10 px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all duration-300"
+                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
-          </div>
 
-          <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 ease-in-out transform hover:scale-105"
+              className="w-full py-2 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-medium shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all duration-300 relative group overflow-hidden"
             >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <Lock className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+              <div className="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.3)_0%,_transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative flex items-center justify-center">
+                <Lock className="h-5 w-5 mr-2" />
+                {isLogin ? "Sign in" : "Create account"}
               </span>
-              {isLogin ? "Sign in" : "Sign up"}
             </button>
-          </div>
-        </form>
-
-        <div className="text-center">
-          <button
-            type="button"
-            onClick={() => setIsLogin(!isLogin)}
-            className="text-indigo-400 hover:text-indigo-300 transition-colors duration-200"
-          >
-            {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
-          </button>
+          </form>
         </div>
+
+        <button
+          type="button"
+          onClick={() => setIsLogin(!isLogin)}
+          className="text-cyan-400 hover:text-cyan-300 transition-colors duration-300 text-sm"
+        >
+          {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+        </button>
       </div>
     </div>
   )
 }
-

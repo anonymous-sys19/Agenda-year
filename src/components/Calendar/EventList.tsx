@@ -8,24 +8,24 @@ import type { Database } from "../../lib/database.types"
 type CalendarEvent = Database["public"]["Tables"]["calendar_events"]["Row"]
 
 const CATEGORY_COLORS = {
-  Trabajo: "border-blue-500 bg-blue-900/30",
-  Personal: "border-green-500 bg-green-900/30",
-  Iglesia: "border-purple-500 bg-purple-900/30",
-  Other: "border-gray-500 bg-gray-800/50",
+  Trabajo: "border-blue-600 bg-gradient-to-r from-blue-600/20 to-blue-400/10",
+  Personal: "border-cyan-600 bg-gradient-to-r from-cyan-600/20 to-cyan-400/10",
+  Iglesia: "border-purple-600 bg-gradient-to-r from-purple-600/20 to-purple-400/10",
+  Other: "border-gray-600 bg-gradient-to-r from-gray-600/20 to-gray-400/10",
 } as const
 
 const CATEGORY_TEXT_COLORS = {
-  Trabajo: "text-blue-300",
-  Personal: "text-green-300",
-  Iglesia: "text-purple-300",
-  Other: "text-gray-300",
+  Trabajo: "bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-300",
+  Personal: "bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-cyan-300",
+  Iglesia: "bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-300",
+  Other: "bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-300",
 } as const
 
 const CATEGORY_BADGE_COLORS = {
-  Trabajo: "bg-blue-900 text-blue-200",
-  Personal: "bg-green-900 text-green-200",
-  Iglesia: "bg-purple-900 text-purple-200",
-  Other: "bg-gray-700 text-gray-200",
+  Trabajo: "bg-gradient-to-r from-blue-600 to-blue-400 text-white",
+  Personal: "bg-gradient-to-r from-cyan-600 to-cyan-400 text-white",
+  Iglesia: "bg-gradient-to-r from-purple-600 to-purple-400 text-white",
+  Other: "bg-gradient-to-r from-gray-600 to-gray-400 text-white",
 } as const
 
 interface EventListProps {
@@ -66,11 +66,15 @@ export function EventList({ onEditEvent, onViewEvent, showAllEvents = false }: E
 
   if (!showAllEvents) {
     return (
-      <div className="space-y-4 bg-gray-900 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold text-gray-100">Events for {format(selectedDate, "MMMM d, yyyy")}</h3>
+      <div className="space-y-4 bg-[#0f0f1e]/80 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-2xl">
+        <h3 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+          Events for {format(selectedDate, "MMMM d, yyyy")}
+        </h3>
 
         {filteredEvents.length === 0 ? (
-          <p className="text-gray-400 text-center py-4">No events for this date</p>
+          <div className="text-cyan-400 text-center py-8 bg-white/5 rounded-xl border border-white/10">
+            No events for this date
+          </div>
         ) : (
           <div className="space-y-3 w-auto h-80 overflow-auto scrollbar-hide">
             {filteredEvents.map((event) => (
@@ -91,12 +95,14 @@ export function EventList({ onEditEvent, onViewEvent, showAllEvents = false }: E
   const groupedEvents = groupEventsByMonth(filteredEvents)
 
   return (
-    <div className="space-y-8 bg-gray-900 p-6 rounded-lg">
-      <h3 className="text-lg font-semibold text-gray-100">All Events</h3>
-      <div className="w-auto h-96 overflow-auto scrollbar-hide">
+    <div className="space-y-8 bg-[#0f0f1e]/80 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-2xl">
+      <h3 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+        All Events
+      </h3>
+      <div className="w-auto h-96 overflow-auto scrollbar-hide space-y-6">
         {Object.entries(groupedEvents).map(([monthYear, monthEvents]) => (
           <div key={monthYear} className="space-y-4">
-            <h4 className="text-md font-medium text-gray-300 border-b border-gray-700 pb-2">{monthYear}</h4>
+            <h4 className="text-md font-medium text-cyan-400 border-b border-white/10 pb-2">{monthYear}</h4>
             <div className="space-y-3">
               {monthEvents.map((event) => (
                 <EventCard
@@ -115,7 +121,6 @@ export function EventList({ onEditEvent, onViewEvent, showAllEvents = false }: E
     </div>
   )
 }
-
 interface EventCardProps {
   event: CalendarEvent
   onEdit: (event: CalendarEvent) => void
@@ -123,7 +128,6 @@ interface EventCardProps {
   onDelete: (id: string) => void
   showDate?: boolean
 }
-
 function EventCard({ event, onEdit, onView, onDelete, showDate = false }: EventCardProps) {
   const eventDate = parseISO(event.event_date)
   const isEventPast = isPast(eventDate)
@@ -131,11 +135,13 @@ function EventCard({ event, onEdit, onView, onDelete, showDate = false }: EventC
   return (
     <div
       className={`
-      p-4 rounded-lg shadow-md border-l-4 transition-all cursor-pointer
-      backdrop-blur-sm backdrop-filter
-      ${isEventPast ? "opacity-60" : ""}
-      ${CATEGORY_COLORS[event.category]}
-    `}
+        p-4 rounded-xl shadow-lg border-l-4 transition-all cursor-pointer
+        backdrop-blur-sm bg-white/5 hover:bg-white/10
+        ${isEventPast ? "opacity-60" : ""}
+        ${CATEGORY_COLORS[event.category]}
+        hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/10
+        group
+      `}
       onClick={() => onView(event)}
     >
       <div className="flex flex-col space-y-2">
@@ -222,4 +228,3 @@ function EventCard({ event, onEdit, onView, onDelete, showDate = false }: EventC
     </div>
   )
 }
-
