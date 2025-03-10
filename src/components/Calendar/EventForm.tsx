@@ -1,6 +1,6 @@
 import type React from "react"
 import { useEffect, useState, useCallback } from "react"
-import { X, Calendar, AlignLeft, Tag, Sparkles, CheckCircle2 } from "lucide-react"
+import { X, Calendar, Clock, AlignLeft, Tag, Sparkles, CheckCircle2 } from "lucide-react"
 import { useCalendarStore } from "../../store/calendar"
 import { useAuthStore } from "../../store/auth"
 import { toast } from "react-hot-toast"
@@ -28,13 +28,14 @@ interface EventFormProps {
 }
 
 export function EventForm({ isOpen, onClose, event }: EventFormProps) {
-   const { user } = useAuthStore();
-    const { addEvent, updateEvent, selectedDate } = useCalendarStore();
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [date, setDate] = useState('');
-  const [category, setCategory] = useState<Category>('Personal');
-  
+  const { user } = useAuthStore()
+  const { addEvent, updateEvent, selectedDate } = useCalendarStore()
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [date, setDate] = useState("")
+  const [category, setCategory] = useState<Category>("Personal")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   useEffect(() => {
     if (event) {
       setTitle(event.title)
@@ -57,7 +58,7 @@ export function EventForm({ isOpen, onClose, event }: EventFormProps) {
 
       if (!user) return
 
-     
+      setIsSubmitting(true)
 
       try {
         const formattedDate = new Date(date)
@@ -80,6 +81,7 @@ export function EventForm({ isOpen, onClose, event }: EventFormProps) {
             event_date: isoDate,
             category,
             created_at: null,
+           
           })
           toast.success("Event created successfully")
         }
@@ -87,7 +89,9 @@ export function EventForm({ isOpen, onClose, event }: EventFormProps) {
       } catch (error) {
         toast.error("Failed to save event")
         console.error(error)
-      } 
+      } finally {
+        setIsSubmitting(false)
+      }
     },
     [user, date, title, description, category, event, updateEvent, addEvent, onClose],
   )
@@ -227,12 +231,21 @@ export function EventForm({ isOpen, onClose, event }: EventFormProps) {
                 </Button>
                 <Button
                   type="submit"
-                 
+                  disabled={isSubmitting}
                   className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
                 >
                   <span className="relative z-10 flex items-center">
+                    {isSubmitting ? (
+                      <>
+                        <Clock className="w-4 h-4 mr-2 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
                         <CheckCircle2 className="w-4 h-4 mr-2" />
-                        {event ? "Update" : "Create"}                    
+                        {event ? "Update" : "Create"}
+                      </>
+                    )}
                   </span>
                   <span className="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.2)_0%,_transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                 </Button>
