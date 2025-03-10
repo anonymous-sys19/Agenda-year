@@ -3,7 +3,6 @@ import { CalendarIcon, Share2 } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import toast from "react-hot-toast"
-
 import type { Database } from "../../lib/database.types"
 import React from "react"
 

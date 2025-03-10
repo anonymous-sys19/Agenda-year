@@ -32,7 +32,7 @@ export interface Database {
       };
       calendar_events: {
         Row: {
-          date: string | number | Date;
+          // date: string | number | Date | null;
           id: string;
           user_id: string;
           title: string;
